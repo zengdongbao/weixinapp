@@ -1,5 +1,5 @@
 //缓存封装，增加过期时间支持
-const time_key='timestamp';
+const time_key='__timestamp';
 //获取缓存
 function get(key){
     try{

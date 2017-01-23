@@ -256,10 +256,8 @@ var event = (function(){
                 return false;
             }
 
-            var arg = [];
-            for(var i=1,len=arguments.length;i<len;i++){
-                arg.push(arguments[i]);
-            }
+            var arg = Array.prototype.slice.call(arguments, 1);
+
 
             if(isFunction(_default[name])){
 
@@ -279,11 +277,7 @@ var event = (function(){
 
 function cb(){
     if(isFunction(arguments[0])){
-        var arg = [];
-        for(var i=1,len=arguments.length;i<len;i++){
-            arg.push(arguments[i]);
-        }
-        arguments[0].apply(null,arg);
+        arguments[0].apply(null,Array.prototype.slice.call(arguments, 1));
     }
 }
 
@@ -316,6 +310,7 @@ event.defaults({
             //触发播放结束
             event.trigger('end');
         }
+
         cb.apply(null,arguments);
     },
     //播放结束
@@ -392,12 +387,11 @@ function play(single,options){
     };
 
     //提供预处理接口
-    event.trigger('preplay',single,function(single){
+    event.trigger('preplay',function(single){
         //BUG: 微信后台播放器如果处于暂停状态时,播放其他歌曲会变成继续播放当前歌曲
         //fixed: 播放其他歌曲前,先停止后台播放
         if(!isObject(data.audio) || single.id !== data.audio.id){
             //需要挂起事件监听,避免自动下一首,播放成功后重新监听
-            console.log('先停后播');
             event.hold('stop');
             stop();
         }
@@ -411,8 +405,12 @@ function play(single,options){
 
         Object.assign(obj,single);
         list.syncIndex(single);
-        wx.playBackgroundAudio(obj);
-    });
+        try{
+            wx.playBackgroundAudio(obj);
+        }catch (e){
+            throw e;
+        }
+    },single);
 
 }
 
@@ -451,7 +449,11 @@ function start(){
 //todo: 官方不修复前,先不做~
 function seek(position){
     wx.seekBackgroundAudio({
-        position:position
+        position:position,
+        success:function(){
+            pause();
+            resume();
+        }
     });
 }
 
