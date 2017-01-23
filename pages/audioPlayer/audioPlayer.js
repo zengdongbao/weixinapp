@@ -1,0 +1,162 @@
+/**
+ * Created by zen on 2017/1/19.
+ */
+var app = getApp();
+var Player = require('../../utils/player/player.js');
+
+Page({
+    data:{},
+    player:null,
+    onLoad:function(){
+        this.player = new Player();
+        this.player.event.on('play',function(data){
+            console.log('播放事件触发!');
+        });
+        this.player.event.on('pause',function(data){
+            console.log('暂停事件触发!');
+        });
+        this.player.event.on('stop',function(data){
+            console.log('停止事件触发!');
+        });
+        this.player.event.on('end',function(data){
+            console.log('播放结束事件触发!');
+        });
+        this.player.event.on('listchange',function(data){
+            console.log('播放列表更改!');
+            this.player.stop();
+        }.bind(this));
+        this.player.event.on('timeupdate',function(data){
+            console.log('播放进度!');
+            console.log(data);
+        });
+        this.player.event.on('preplay',function(data,next){
+            console.log('播放预处理!');
+            console.log(data);
+
+            data.title_sub = '重新处理';
+            next(data);
+        });
+    },
+    off:function(){
+        this.player.event.off('play');
+        this.player.event.off('pause');
+        this.player.event.off('stop');
+        this.player.event.off('end');
+        this.player.event.off('listchange');
+        this.player.event.off('timeupdate');
+    },
+    play:function(){
+        console.log('播放');
+        this.player.start();
+    },
+    playone:function(){
+        console.log('指定播放歌曲');
+        this.player.invoke(1);
+    },
+    resume:function(){
+        console.log('恢复');
+        this.player.resume();
+    },
+    stop:function(){
+        console.log('停止');
+        this.player.stop();
+    },
+    pause:function(){
+        console.log('暂停');
+        this.player.pause();
+    },
+    next:function(){
+        console.log('播放下一首');
+        this.player.next();
+    },
+    prev:function(){
+        console.log('播放上一首');
+        this.player.prev();
+    },
+    mode:function(){
+        console.log('切换模式');
+        this.player.toggleMode();
+        switch (this.player.data().mode){
+            case 1:
+                this.setData({
+                    mode:'列表循环'
+                });
+                break;
+            case 2:
+                this.setData({
+                    mode:'单曲循环'
+                });
+                break;
+            case 3:
+                this.setData({
+                    mode:'随机播放'
+                });
+                break;
+        }
+        console.log(this.player.list.getQueue());
+    },
+    seek:function(){
+        console.log('快进');
+        this.player.seek(200);
+    },
+    list1:function(){
+        console.log('播放列表1');
+        var data = [
+            {
+                dataUrl:'http://mp3-cdn.luoo.net/low/luoo/radio131/01.mp3',
+                title:'歌曲1',
+                id:1
+            },
+            {
+                dataUrl:'http://mp3-cdn.luoo.net/low/luoo/radio131/02.mp3',
+                title:'歌曲2',
+                id:2
+            },
+            {
+                dataUrl:'http://mp3-cdn.luoo.net/low/luoo/radio131/03.mp3',
+                title:'歌曲3',
+                id:3
+            },
+            {
+                dataUrl:'http://mp3-cdn.luoo.net/low/luoo/radio131/04.mp3',
+                title:'歌曲4',
+                id:4
+            }
+        ];
+        this.player.list.create(data,1);
+        this.player.event.trigger('listchange');
+    },
+    list2:function(){
+        console.log('播放列表2');
+        var data = [
+            {
+                dataUrl:'http://mp3-cdn.luoo.net/low/luoo/radio131/05.mp3',
+                title:'歌曲5',
+                id:5
+            },
+            {
+                dataUrl:'http://mp3-cdn.luoo.net/low/luoo/radio131/06.mp3',
+                title:'歌曲6',
+                id:6
+            },
+            {
+                dataUrl:'http://mp3-cdn.luoo.net/low/luoo/radio131/07.mp3',
+                title:'歌曲7',
+                id:7
+            },
+            {
+                dataUrl:'http://mp3-cdn.luoo.net/low/luoo/radio131/08.mp3',
+                title:'歌曲8',
+                id:8
+            },
+            {
+                dataUrl:'http://mp3-cdn.luoo.net/low/luoo/radio131/09.mp3',
+                title:'歌曲9',
+                id:9
+            }
+        ];
+        this.player.list.create(data,2);
+        this.player.event.trigger('listchange');
+    }
+
+});

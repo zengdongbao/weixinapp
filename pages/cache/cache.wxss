@@ -1,0 +1,11 @@
+
+
+.row{
+    padding:20rpx;
+}
+
+.input{
+    border:1rpx #ccc solid;
+    border-radius: 5rpx;
+    background: #fff;
+}

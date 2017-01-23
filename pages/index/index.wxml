@@ -1,0 +1,4 @@
+<!--index.wxml-->
+<view class="container">
+    <button class="menu" wx:for="{{menus}}" wx:for-index="index" wx:for-item="item" data-url="{{item.url}}" bindtap="nav">{{item.title}}</button>
+</view>

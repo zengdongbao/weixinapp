@@ -1,0 +1,15 @@
+<!--index.wxml-->
+<view class="container">
+    <button bindtap="play">播放</button>
+    <button bindtap="playone">播放第二首</button>
+    <button bindtap="pause">暂停</button>
+    <button bindtap="stop">停止</button>
+    <button bindtap="resume">恢复</button>
+    <button bindtap="next">下一首</button>
+    <button bindtap="prev">上一首</button>
+    <button bindtap="mode">播放模式:{{mode}}</button>
+    <button bindtap="seek">快进</button>
+    <button bindtap="list1">列表1</button>
+    <button bindtap="list2">列表2</button>
+    <button bindtap="off">事件解绑</button>
+</view>

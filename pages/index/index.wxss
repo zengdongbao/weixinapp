@@ -1,0 +1,10 @@
+.container{
+    padding:10rpx;
+}
+
+.menu{
+    margin-bottom: 10rpx;
+    /*padding:30rpx;*/
+    background: #f8f8f8;
+    text-align: center;
+}
