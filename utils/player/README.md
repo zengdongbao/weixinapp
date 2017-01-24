@@ -13,6 +13,12 @@ var Player=require('player.js');
 //创建一个播放器实例
 var player = new Player();
 
+//监听播放事件
+player.event.on('play',function(data){
+    console.log('播放事件触发!');
+});
+
+//创建播放列表
 player.list.create([
     {
         dataUrl:'your_music_url',
@@ -20,10 +26,8 @@ player.list.create([
         id:'music id'
     }
 ]);
-
+//开始播放
 player.start();
-
-
 ```
 
 
@@ -179,7 +183,7 @@ player.event.trigger('listchange');
 **关于`preplay`事件**  
 在某些项目中, 在创建播放列表时, 只会设置一个歌曲ID, 
 等需要播放时再实时去获取歌曲的详细信息, 包括播放地址等, 那么就需要用到这个事件了。  
-该事件的触发会传一个当前准备播放的歌曲对象,已经另一个回调。  
+该事件的触发会传一个当前准备播放的歌曲对象,以及一个回调函数。  
 例如:
 ```
 player.event.on('preplay',function(data,next){
