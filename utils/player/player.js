@@ -478,6 +478,8 @@ function toggleMode(){
     if(isObject(data.audio)){
         list.syncIndex(data.audio);
     }
+
+    return data.mode;
 }
 
 
