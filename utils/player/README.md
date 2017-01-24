@@ -92,7 +92,7 @@ return : *boolean*
 播放列表方法
 
 - `create(array list[, list_id])`  
-创建播放列表
+创建播放列表  
 params:  
     `list` *array* 歌曲列表  
     ``` 
@@ -199,6 +199,9 @@ player.event.on('preplay',function(data,next){
  
  
 
+### 处理不了的坑
 
+- iOS，设置进度会有严重的延迟，播放进度显示不同步，多次设置进度还会是播放器变得不稳定，所以暂时不做进度控制的功能
+- iOS，当小程序切换到后台执行时，除了之前播放过的歌曲，播放其他歌曲会失效
 
 
